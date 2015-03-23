@@ -26,7 +26,7 @@
 # (it'll almost certainly be under /usr)
 
 # CUDA toolkit installation directory.
-export CUDA_INSTALL_PATH=/usr/local/cuda
+export CUDA_INSTALL_PATH=/usr/
 
 # Python include directory. This should contain the file Python.h, among others.
 export PYTHON_INCLUDE_PATH=/usr/include/python2.7
@@ -39,12 +39,17 @@ export ATLAS_LIB_PATH=/usr/lib/atlas-base
 
 # You don't have to change these:
 export LD_LIBRARY_PATH=$CUDA_INSTALL_PATH/lib64:$LD_LIBRARY_PATH
-export CUDA_SDK_PATH=$CUDA_INSTALL_PATH/samples
+export CUDA_SDK_PATH=`pwd`
 export PATH=$PATH:$CUDA_INSTALL_PATH/bin
 
-cd util && make numpy=1 -j $* && cd ..
-cd nvmatrix && make -j $* && cd ..
-cd cudaconv3 && make -j $* && cd ..
-cd cudaconvnet && make -j $* && cd ..
-cd make-data/pyext && make -j $* && cd ../..
+GENCODE_SM35="-gencode arch=compute_35,code=sm_35"
+GENCODE_SM30="-gencode arch=compute_30,code=sm_30"
+export GENCODE_FLAGS="$GENCODE_SM30"
+
+#FLAGS="-j"
+make -C util numpy=1 $FLAGS $* || exit
+make -C nvmatrix $FLAGS $* || exit
+make -C cudaconv3 $FLAGS $* || exit
+make -C cudaconvnet $FLAGS $* || exit
+make -C make-data/pyext $FLAGS $* || exit
 
