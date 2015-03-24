@@ -47,9 +47,9 @@ GENCODE_SM30="-gencode arch=compute_30,code=sm_30"
 export GENCODE_FLAGS="$GENCODE_SM30"
 
 #FLAGS="-j"
-make -C util numpy=1 $FLAGS $* || exit
-make -C nvmatrix $FLAGS $* || exit
-make -C cudaconv3 $FLAGS $* || exit
-make -C cudaconvnet $FLAGS $* || exit
-make -C make-data/pyext $FLAGS $* || exit
+make -C util numpy=1 $FLAGS $* || exit -1
+make -C nvmatrix $FLAGS $* || exit -1
+make -C cudaconv3 $FLAGS $* || exit -1
+make -C cudaconvnet $FLAGS $* || exit -1
+make -C make-data/pyext $FLAGS $* || exit -1
 
